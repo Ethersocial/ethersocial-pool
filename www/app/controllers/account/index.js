@@ -2,8 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   applicationController: Ember.inject.controller('application'),
-  config: Ember.computed.reads('applicationController.config'),
+  netstats: Ember.computed.reads('applicationController'),
   stats: Ember.computed.reads('applicationController.model.stats'),
+  config: Ember.computed.reads('applicationController.config'),
+
   chartOptions: Ember.computed("model.hashrate", {
         get() {
             var e = this,
@@ -13,7 +15,7 @@ export default Ember.Controller.extend({
                         backgroundColor: "rgba(255, 255, 255, 0.1)",
                         type: "spline",
                         marginRight: 10,
-                        height: 400,
+                        height: 200,
                         events: {
                             load: function() {
                                 var series = this.series[0];
@@ -21,7 +23,7 @@ export default Ember.Controller.extend({
                                     var x = (new Date()).getTime(),
                                         y = e.getWithDefault("model.currentHashrate") / 1000000;
                                     series.addPoint([x, y], true, true);
-                                }, 109000000);
+                                }, 1090000000);
                             }
                         }
                     },
@@ -44,9 +46,10 @@ export default Ember.Controller.extend({
                     },
                     yAxis: {
                         title: {
-                            text: "HASHRATE"
+                            text: "Hashrate by Account"
                         },
-                        min: 0
+                        //softMin: e.getWithDefault("model.currentHashrate") / 1000000,
+                        //softMax: e.getWithDefault("model.currentHashrate") / 1000000,
                     },
                     plotLines: [{
                         value: 0,
@@ -69,7 +72,7 @@ export default Ember.Controller.extend({
                     },
                     series: [{
                         color: "#E99002",
-                        name: "Average hashrate",
+                        name: "3 hours average hashrate",
                         data: function() {
                             var e, a = [];
                             if (null != t) {
@@ -91,12 +94,12 @@ export default Ember.Controller.extend({
                                 x: 0,
                                 d: 0,
                                 y: 0
-                            });
+                                });
                             }
                             return a;
                         }()
                     }, {
-                        name: "Current hashrate",
+                        name: "30 minutes average hashrate",
                         data: function() {
                             var e, a = [];
                             if (null != t) {
@@ -115,9 +118,9 @@ export default Ember.Controller.extend({
                                 }
                             } else {
                                 a.push({
-                                x: 0,
-                                d: 0,
-                                y: 0
+                                    x: 0,
+                                    d: 0,
+                                    y: 0
                                 });
                             }
                             return a;
@@ -126,14 +129,6 @@ export default Ember.Controller.extend({
                 };
             return a;
         }
-    }),
-  roundPercent: Ember.computed('stats', 'model', {
-    get() {
-      var percent = this.get('model.roundShares') / this.get('stats.roundShares');
-      if (!percent) {
-        return 0;
-      }
-      return percent;
-    }
-  })
+    })
 });
+

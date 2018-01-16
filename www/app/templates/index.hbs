@@ -40,6 +40,9 @@
   </div>
   <div>
     <hr/>
+    <div>
+    {{high-charts mode=chartMode chartOptions=chartOptions content=chartData}}
+    </div>
     <h4 class="note note-info text-center">
       .exe -epool {{config.StratumHost}}:8008 -esm 0 -ewal &lt;address&gt; -eworker &lt;WORKER&gt; -allcoins 1 -allpools 1
     </h4>
