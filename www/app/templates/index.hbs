@@ -40,6 +40,9 @@
   </div>
   <div>
     <hr/>
+    <div>
+    {{high-charts mode=chartMode chartOptions=chartOptions content=chartData}}
+    </div>
     <h4 class="note note-info text-center">
       ethminer.exe -F {{config.HttpHost}}:{{config.HttpPort}}/&lt;address&gt;/&lt;worker&gt; -G
     </h4>
