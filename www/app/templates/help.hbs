@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="page-header">
+    <h1>How To Mine</h1>
+  </div>
+  <p class="lead">In order to mine on this pool you need to have an
+    <a href="https://github.com/ethereum/webthree-umbrella/releases" rel="nofollow" target="_blank">ethminer</a> or <a href="https://bitcointalk.org/index.php?topic=1433925.0" rel="nofollow" target="_blank">Claymore dual miner</a> installation
+    pointed to<br/>
+	<code>EthDcrMiner64 -epool {{config.StratumHost}}:{{config.StratumPort}} -esm 0 -ewal &lt;YOUR_ESC_ADDRESS&gt; -allcoins 1 -allpools 1</code><br/>
+	<code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/YOUR_ESC_ADDRESS/Worker_ID</code>
+  </p>
+  <dl class="dl-horizontal">
+    <dt>YOUR_ESC_ADDRESS</dt>
+    <dd>This is your address for payouts, generate one with gesc, ESC-mist.<br/>
+      <strong>Example:</strong> <code>0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06</code>.
+    </dd>
+    <dt>Worker_ID</dt>
+    <dd>
+      ID of your farm to distinguish it from your other rig. If you have just one rig, feel free to omit this param.
+      This param must be short alphanumeric string with optional dashes and underscores.<br/>
+      <strong>Example:</strong> <code>worker-1</code>
+    </dd>
+  </dl>
+  <p>
+    <strong>Full example:</strong><br/>
+    <code>EthDcrMiner64 -epool {{config.StratumHost}}:8008 -esm 0 -ewal 0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06 -allcoins 1 -allpools 1</code><br/>
+    <code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06/worker1 -G --farm-recheck 200</code><br/><br/>
+
+  </p>
+
+  <h4>Advice</h4>
+  <p>CPU mining is not recommended.</p>
+  <h4>Terms of Service</h4>
+  <p>By using the pool you accept all possible risks related to experimental software usage.<br/>
+     Pool owner can't compensate any irreversible losses, but will do his best to prevent worst case.
+  </p>
+</div>
