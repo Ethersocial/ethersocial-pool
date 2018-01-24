@@ -1,8 +1,8 @@
-## Open Source ESC Mining Pool
+## Open Source Ethereum Mining Pool
 
 ![Miner's stats page](https://user-images.githubusercontent.com/7374093/31591180-43c72364-b236-11e7-8d47-726cd66b876a.png)
 
-[![Join the chat at https://gitter.im/sammy007/open-ethereum-pool](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sammy007/open-ethereum-pool?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/sammy007/open-ethereum-pool.svg?branch=develop)](https://travis-ci.org/sammy007/open-ethereum-pool) [![Go Report Card](https://goreportcard.com/badge/https://github.com/ethersocial/esc-pool)](https://goreportcard.com/report/https://github.com/ethersocial/esc-pool)
+[![Join the chat at https://gitter.im/sammy007/open-ethereum-pool](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sammy007/open-ethereum-pool?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/sammy007/open-ethereum-pool.svg?branch=develop)](https://travis-ci.org/sammy007/open-ethereum-pool) [![Go Report Card](https://goreportcard.com/badge/https://github.com/ethersocial/ethersocial-pool)](https://goreportcard.com/report/https://github.com/ethersocial/ethersocial-pool)
 
 ### Features
 
@@ -97,15 +97,15 @@ nginx 설정은 다른 구글문서를 참고해주세요.
 
     $ sudo apt-get install -y build-essential
 
-### go-esc 설치
+### go-ethersocial 설치
     $ cd ~
-    $ git clone https://github.com/ethersocial/go-esc
-    $ cd go-esc
+    $ git clone https://github.com/ethersocial/go-ethersocial
+    $ cdgo-ethersocial
     $ chmod 755 build/*
     $ make gesc
-    $ cp ~/go-esc/build/bin/gesc /usr/local/bin/
+    $ cp ~/go-ethersocial/build/bin/gesc /usr/local/bin/
 
-### go-esc 실행
+### go-ethersocial 실행
 우분투에서는 screen 명령어를 이용해서 활용을 하는 것이 터미널을 관리할 때 편리합니다. 구글에서 ubuntu screen 을 검색해서 사용법을 익혀주세요.
 
     $ screen -S esc1
@@ -116,18 +116,18 @@ nginx 설정은 다른 구글문서를 참고해주세요.
 
     $ screen -r esc1
 
-### esc pool 설치
+### ethersocial pool 설치
 
     $ git config --global http.https://gopkg.in.followRedirects true
-    $ git clone https://github.com/ethersocial/esc-pool
-    $ cd esc-pool
+    $ git clone https://github.com/ethersocial/ethersocial-pool
+    $ cd ethersocial-pool
     $ chmod 755 build/*
     $ make all
 
-다음을 했을 때 esc-pool 이 나오면 설치 성공입니다.
-    $ ls ~/esc-pool/build/bin/
+다음을 했을 때 ethersocial-pool 이 나오면 설치 성공입니다.
+    $ ls ~/ethersocial-pool/build/bin/
 
-### esc pool 설정
+### ethersocial pool 설정
     $ cp config.example.json config.json
     $ vi config.json
 
@@ -333,8 +333,8 @@ I recommend this deployment strategy:
 마찬가지로 screen을 실행한 후 풀을 실행해야 합니다. 그렇지 않으면 터미널이 닫히면서 풀 동작이 멈춥니다.
 
     $ screen -S pool1
-    $ cd ~/esc-pool
-    $ ./build/bin/esc-pool config.json
+    $ cd ~/ethersocial-pool
+    $ ./build/bin/ethersocial-pool config.json
     Crtl + a, d
 
 해당 스크린으로 돌아가려면 다음과 같이 입력합니다.
@@ -355,7 +355,7 @@ I recommend this deployment strategy:
 
 ### 설정파일 수정
 
-    $ vi ~/esc-pool/www/config/environment.js
+    $ vi ~/ethersocial-pool/www/config/environment.js
 
 다음 부분을 적절히 변경합니다.
 
@@ -371,7 +371,7 @@ Install nodejs. I suggest using LTS version >= 4.x from https://github.com/nodes
 
 The frontend is a single-page Ember.js application that polls the pool API to render miner stats.
 
-    $ cd ~/esc-pool/www
+    $ cd ~/ethersocial-pool/www
     $ sudo npm install -g ember-cli@2.9.1
     $ sudo npm install -g bower
     $ npm install
@@ -379,7 +379,7 @@ The frontend is a single-page Ember.js application that polls the pool API to re
     $ chmod 755 build.sh
     $ ./build.sh
     $ mkdir ~/www
-    $ mv ~/esc-pool/www/dist/* ~/www/
+    $ mv ~/ethersocial-pool/www/dist/* ~/www/
 
 위 처럼 풀의 홈페이지 부분 프론트엔드를 만들었습니다. 그리고 그 파일을 서비스할 디렉토리 www로 이동합니다.
 
