@@ -97,15 +97,15 @@ nginx 설정은 다른 구글문서를 참고해주세요.
 
     $ sudo apt-get install -y build-essential
 
-### go-ethersocial 설치
+### go-esc 설치
     $ cd ~
-    $ git clone https://github.com/ethersocial/go-ethersocial
-    $ cdgo-ethersocial
+    $ git clone https://github.com/ethersocial/go-esc
+    $ cd go-esc
     $ chmod 755 build/*
     $ make gesc
-    $ cp ~/go-ethersocial/build/bin/gesc /usr/local/bin/
+    $ sudo cp ~/go-esc/build/bin/gesc /usr/local/bin/
 
-### go-ethersocial 실행
+### go-esc 실행
 우분투에서는 screen 명령어를 이용해서 활용을 하는 것이 터미널을 관리할 때 편리합니다. 구글에서 ubuntu screen 을 검색해서 사용법을 익혀주세요.
 
     $ screen -S esc1
@@ -115,6 +115,17 @@ nginx 설정은 다른 구글문서를 참고해주세요.
 원래 터미널로 다시 돌아가고 싶을때는
 
     $ screen -r esc1
+
+원래 터미널로 돌아온 상태에서 go-esc를 한 번 더 실행합니다.
+
+    $ gesc attach
+
+풀에서 사용할 계정을 새로 생성하고 지갑을 열어줍니다. 그래야 출금이 됩니다. 이 과정은 지갑을 재구동할 때마다 빠뜨리지 말고 실행해야합니다.
+
+    > personal.unlockAccount("비밀번호")
+    > personal.unlockAccount(eth.accounts[0],"비밀번호",40000000)
+
+
 
 ### ethersocial pool 설치
 
@@ -128,7 +139,7 @@ nginx 설정은 다른 구글문서를 참고해주세요.
     $ ls ~/ethersocial-pool/build/bin/
 
 ### ethersocial pool 설정
-    $ cp config.example.json config.json
+    $ mv config.example.json config.json
     $ vi config.json
 
 아래 부분을 보고 설정을 합니다.
