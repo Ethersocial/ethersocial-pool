@@ -401,11 +401,11 @@ func (r *RedisClient) UpdateBalance(login string, amount int64) error {
 	ts := util.MakeTimestamp() / 1000
 
 	_, err := tx.Exec(func() error {
-		tx.HIncrBy(r.formatKey("miners", login), "balance", (amount * -1))
+		//tx.HIncrBy(r.formatKey("miners", login), "balance", (amount * -1))
 		tx.HIncrBy(r.formatKey("miners", login), "pending", amount)
 		tx.HIncrBy(r.formatKey("finances"), "balance", (amount * -1))
 		tx.HIncrBy(r.formatKey("finances"), "pending", amount)
-		tx.ZAdd(r.formatKey("payments", "pending"), redis.Z{Score: float64(ts), Member: join(login, amount)})
+		//tx.ZAdd(r.formatKey("payments", "pending"), redis.Z{Score: float64(ts), Member: join(login, amount)})
 		return nil
 	})
 	return err
