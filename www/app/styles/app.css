@@ -135,6 +135,9 @@ span.logo-3 {
 	padding: 15px 30px 15px 15px;
 	border-left: 5px solid #eee;
 	border-radius: 5px;
+}
+
+.note, code{
 	word-break:break-word;
 	word-wrap:break-word;
 }
