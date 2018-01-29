@@ -136,6 +136,11 @@ span.logo-3 {
 	border-left: 5px solid #eee;
 	border-radius: 5px;
 }
+ 
+ .note, code{
+ 	word-break:break-word;
+ 	word-wrap:break-word;
+}
 
 .note-info {
 	background-color: #E8F6FC;
