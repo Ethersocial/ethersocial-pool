@@ -29,17 +29,34 @@
       </div>
     </footer>
 
-    <scrpit>
-      $(document).ready(function(){
-        $(".navbar-nav").find("a").off().on({
-          touchend:function(){
-            var _this=$(this);
-            $(".navbar-collapse.in").stop().animate({"height":"1px"},220, "swing", function(){
-              $(".navbar-collapse").attr("aria-expanded", false).removeClass("in");
-            });
-          }
-        });
+    <!-- vendor.js 아래 부분에 추가.
+    <script>
+    /*
+    var menuChoiceTimer;
+    function menuChoiceTimerfc(){
+      menuChoiceTimer=setTimeout(function(){
+        if($("div.ember-view").length>0){
+          menuChoiceClose();
+        }else{
+          menuChoiceTimerfc();
+        }
+      },10);
+    }
+    menuChoiceTimerfc();
+    function menuChoiceClose(){
+      $(".navbar-nav").find("a").off().on({
+        touchend:function(){
+          var _this=$(this);
+          $(".navbar-collapse.in").stop().animate({"height":"1px"},220, "swing", function(){
+            $(".navbar-collapse").attr("aria-expanded", false).removeClass("in");
+          });
+        }
       });
-    </scrpit>
+    }
+    */
+    /// 위 내용 공백제거
+    var menuChoiceTimer;function menuChoiceTimerfc(){menuChoiceTimer=setTimeout(function(){if($("div.ember-view").length>0) menuChoiceClose();else menuChoiceTimerfc();},10);}menuChoiceTimerfc();function menuChoiceClose(){$(".navbar-nav").find("a").off().on({touchend:function(){var _this=$(this);$(".navbar-collapse.in").stop().animate({"height":"1px"},220, "swing", function(){$(".navbar-collapse").attr("aria-expanded", false).removeClass("in");});}});}
+    </script>
+    -->
   </body>
 </html>
