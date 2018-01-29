@@ -130,11 +130,26 @@ span.logo-3 {
 	font-weight: 200;
 }
 
+h1, h2, h3, h4, h4, h6 {
+	margin-top: 0px;
+}
+
+.container>h2, .container>h3 {
+	margin-top:2.0rem;
+}
+	
 .note {
 	margin: 0 0 20px 0;
 	padding: 15px 30px 15px 15px;
 	border-left: 5px solid #eee;
 	border-radius: 5px;
+	word-break:break-word;
+	word-wrap:break-word;
+}
+
+.note, code, .alert-info>a{
+	word-break:break-word;
+	word-wrap:break-word;
 }
 
 .note-info {
@@ -175,4 +190,27 @@ h4.note {
 }
 .stats > div > span:first-of-type{
 	font-weight: bold;
+}
+
+@media screen and (min-width:768px) and (max-width:991px){
+	body{padding-top:60px;}
+}
+
+/* tabs */
+.tab-content>.tab-pane {
+	background-color: #ffffff;
+	padding: 1em;
+	border-radius: 0 0 5px 5px;
+	border: 1px #eeeeee solid;
+	border-width: 0 1px 1px 1px;
+}
+
+code {
+	font-size: 100%;
+	/* color: #444f67; /* */
+	background-color: #f7f7f7;
+}
+
+code em {
+	color: #3b9218;
 }
