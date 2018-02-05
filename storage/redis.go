@@ -181,12 +181,17 @@ func (r *RedisClient) WriteShare(login, id string, params []string, diff int64, 
 
 	ms := util.MakeTimestamp()
 	ts := ms / 1000
+//해시제한
+	mineraccept, err := r.AccountHash(login)
 
-	_, err = tx.Exec(func() error {
-		r.writeShare(tx, ms, ts, login, id, diff, window)
-		tx.HIncrBy(r.formatKey("stats"), "roundShares", diff)
-		return nil
-	})
+	if mineraccept {
+		_, err = tx.Exec(func() error {
+			r.writeShare(tx, ms, ts, login, id, diff, window)
+			tx.HIncrBy(r.formatKey("stats"), "roundShares", diff)
+			return nil
+		})
+	}
+
 	return false, err
 }
 
@@ -694,7 +699,7 @@ func (r *RedisClient) CollectStats(smallWindow time.Duration, maxBlocks, maxPaym
 	stats["payments"] = payments
 	stats["paymentsTotal"] = cmds[9].(*redis.IntCmd).Val()
 // 해시제한
-	log.Printf("==========hashLimit redis-1========== %d\n",hashLimit)
+	log.Printf("==========hashLimit========== %d\n",hashLimit)
 	totalHashrate, miners := convertMinersStats(window, cmds[1].(*redis.ZSliceCmd), hashLimit)
 	stats["miners"] = miners
 	stats["minersTotal"] = len(miners)
@@ -944,9 +949,11 @@ func convertMinersStats(window int64, raw *redis.ZSliceCmd, hashLimit int64) (in
 				totalHashrate += miner.HR
 			}
 		}
+		if hashLimit == 0{
+				totalHashrate += miner.HR
+		}
 		miners[id] = miner
 	}
-	log.Printf("==========totalHashrate redis-1========== %d\n",totalHashrate)
 	return totalHashrate, miners
 }
 
@@ -967,4 +974,36 @@ func convertPaymentsResults(raw *redis.ZSliceCmd) []map[string]interface{} {
 		result = append(result, tx)
 	}
 	return result
+}
+
+func (r *RedisClient) AccountHash(login string) (bool, error) {
+	exist, err := r.IsMinerExists(login)
+	if !exist {
+		log.Printf("TEST1 : %v", err)
+		return true, nil
+	}
+	if err != nil {
+		log.Printf("TEST2 : %v", err)
+		return true, nil
+	}
+
+	hashrateWindow := util.MustParseDuration("30m")
+	hashrateLargeWindow := util.MustParseDuration("3h")
+
+	workers, err := r.CollectWorkersStats(hashrateWindow, hashrateLargeWindow, login)
+	if err != nil {
+		log.Printf("workers : %s", workers)
+		return true, nil
+	}
+
+//	log.Printf("currentHashrate: %d", workers["currentHashrate"])
+//	log.Printf("workers online : %s", workers["workersOnline"])
+	var currentHashrate int64
+	currentHashrate = workers["currentHashrate"].(int64)
+
+	if currentHashrate > 240000000 {
+		return false, nil
+	}
+
+	return true, nil
 }
