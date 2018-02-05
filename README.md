@@ -309,7 +309,7 @@ nginx 설정은 다른 구글문서를 참고해주세요.
   "payouts": {
     "enabled": true,
     // Require minimum number of peers on node
-    "requirePeers": 2,
+    "requirePeers": 5,
     // Run payouts in this interval
     "interval": "12h",
     // Gesc instance node rpc endpoint for payouts processing
