@@ -17,7 +17,7 @@ import (
 )
 
 type ApiConfig struct {
-	HashLimit                  int64        `json:"hashLimit"`
+	HashLimit            int64  `json:"hashLimit"`
 	Enabled              bool   `json:"enabled"`
 	Listen               string `json:"listen"`
 	StatsCollectInterval string `json:"statsCollectInterval"`
