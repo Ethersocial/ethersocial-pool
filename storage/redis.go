@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"log"
 	"fmt"
 	"math/big"
 	"strconv"
@@ -180,12 +181,17 @@ func (r *RedisClient) WriteShare(login, id string, params []string, diff int64, 
 
 	ms := util.MakeTimestamp()
 	ts := ms / 1000
+//해시제한
+	mineraccept, err := r.AccountHash(login)
 
-	_, err = tx.Exec(func() error {
-		r.writeShare(tx, ms, ts, login, id, diff, window)
-		tx.HIncrBy(r.formatKey("stats"), "roundShares", diff)
-		return nil
-	})
+	if mineraccept {
+		_, err = tx.Exec(func() error {
+			r.writeShare(tx, ms, ts, login, id, diff, window)
+			tx.HIncrBy(r.formatKey("stats"), "roundShares", diff)
+			return nil
+		})
+	}
+
 	return false, err
 }
 
@@ -401,11 +407,11 @@ func (r *RedisClient) UpdateBalance(login string, amount int64) error {
 	ts := util.MakeTimestamp() / 1000
 
 	_, err := tx.Exec(func() error {
-		//tx.HIncrBy(r.formatKey("miners", login), "balance", (amount * -1))
+		tx.HIncrBy(r.formatKey("miners", login), "balance", (amount * -1))
 		tx.HIncrBy(r.formatKey("miners", login), "pending", amount)
 		tx.HIncrBy(r.formatKey("finances"), "balance", (amount * -1))
 		tx.HIncrBy(r.formatKey("finances"), "pending", amount)
-		//tx.ZAdd(r.formatKey("payments", "pending"), redis.Z{Score: float64(ts), Member: join(login, amount)})
+		tx.ZAdd(r.formatKey("payments", "pending"), redis.Z{Score: float64(ts), Member: join(login, amount)})
 		return nil
 	})
 	return err
@@ -647,7 +653,7 @@ func (r *RedisClient) FlushStaleStats(window, largeWindow time.Duration) (int64,
 	return total, nil
 }
 
-func (r *RedisClient) CollectStats(smallWindow time.Duration, maxBlocks, maxPayments int64) (map[string]interface{}, error) {
+func (r *RedisClient) CollectStats(smallWindow time.Duration, maxBlocks, maxPayments int64, hashLimit int64) (map[string]interface{}, error) {
 	window := int64(smallWindow / time.Second)
 	stats := make(map[string]interface{})
 
@@ -692,8 +698,9 @@ func (r *RedisClient) CollectStats(smallWindow time.Duration, maxBlocks, maxPaym
 	payments := convertPaymentsResults(cmds[10].(*redis.ZSliceCmd))
 	stats["payments"] = payments
 	stats["paymentsTotal"] = cmds[9].(*redis.IntCmd).Val()
-
-	totalHashrate, miners := convertMinersStats(window, cmds[1].(*redis.ZSliceCmd))
+// 해시제한
+	log.Printf("==========hashLimit========== %d\n",hashLimit)
+	totalHashrate, miners := convertMinersStats(window, cmds[1].(*redis.ZSliceCmd), hashLimit)
 	stats["miners"] = miners
 	stats["minersTotal"] = len(miners)
 	stats["hashrate"] = totalHashrate
@@ -896,7 +903,7 @@ func convertWorkersStats(window int64, raw *redis.ZSliceCmd) map[string]Worker {
 	return workers
 }
 
-func convertMinersStats(window int64, raw *redis.ZSliceCmd) (int64, map[string]Miner) {
+func convertMinersStats(window int64, raw *redis.ZSliceCmd, hashLimit int64) (int64, map[string]Miner) {
 	now := util.MakeTimestamp() / 1000
 	miners := make(map[string]Miner)
 	totalHashrate := int64(0)
@@ -933,7 +940,18 @@ func convertMinersStats(window int64, raw *redis.ZSliceCmd) (int64, map[string]M
 		if miner.LastBeat < (now - window/2) {
 			miner.Offline = true
 		}
-		totalHashrate += miner.HR
+		
+		if hashLimit > 0{
+			if  miner.HR < 0 {
+				totalHashrate += miner.HR
+			}
+			if  miner.HR > 0 && totalHashrate < hashLimit{
+				totalHashrate += miner.HR
+			}
+		}
+		if hashLimit == 0{
+				totalHashrate += miner.HR
+		}
 		miners[id] = miner
 	}
 	return totalHashrate, miners
@@ -956,4 +974,36 @@ func convertPaymentsResults(raw *redis.ZSliceCmd) []map[string]interface{} {
 		result = append(result, tx)
 	}
 	return result
+}
+
+func (r *RedisClient) AccountHash(login string) (bool, error) {
+	exist, err := r.IsMinerExists(login)
+	if !exist {
+		log.Printf("TEST1 : %v", err)
+		return true, nil
+	}
+	if err != nil {
+		log.Printf("TEST2 : %v", err)
+		return true, nil
+	}
+
+	hashrateWindow := util.MustParseDuration("30m")
+	hashrateLargeWindow := util.MustParseDuration("3h")
+
+	workers, err := r.CollectWorkersStats(hashrateWindow, hashrateLargeWindow, login)
+	if err != nil {
+		log.Printf("workers : %s", workers)
+		return true, nil
+	}
+
+//	log.Printf("currentHashrate: %d", workers["currentHashrate"])
+//	log.Printf("workers online : %s", workers["workersOnline"])
+	var currentHashrate int64
+	currentHashrate = workers["currentHashrate"].(int64)
+
+	if currentHashrate > 240000000 {
+		return false, nil
+	}
+
+	return true, nil
 }
