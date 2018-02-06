@@ -186,7 +186,6 @@ h4.note {
 .stats > div > span:first-of-type{
 	font-weight: bold;
 }
-
 @media screen and (min-width:768px) and (max-width:991px){
 	body{padding-top:60px;}
 }
