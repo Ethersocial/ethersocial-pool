@@ -941,9 +941,9 @@ func convertMinersStats(window int64, raw *redis.ZSliceCmd, hashLimit int64) (in
 			miner.Offline = true
 		}
 		
-		if hashLimit > 0 && miner.HR > hashLimit{
-			miner.HR = hashLimit
-		}
+//		if hashLimit > 0 && miner.HR > hashLimit{
+//			miner.HR = hashLimit
+//		}
 		totalHashrate += miner.HR
 		miners[id] = miner
 	}
