@@ -167,7 +167,7 @@ func (r *RedisClient) checkPoWExist(height uint64, params []string) (bool, error
 	return val == 0, err
 }
 
-func (r *RedisClient) WriteShare(login, id string, params []string, diff int64, height uint64, window time.Duration) (bool, error) {
+func (r *RedisClient) WriteShare(login, id string, params []string, diff int64, height uint64, window time.Duration, hashLimit int64) (bool, error) {
 	exist, err := r.checkPoWExist(height, params)
 	if err != nil {
 		return false, err
@@ -181,8 +181,8 @@ func (r *RedisClient) WriteShare(login, id string, params []string, diff int64, 
 
 	ms := util.MakeTimestamp()
 	ts := ms / 1000
-//해시제한
-	mineraccept, err := r.AccountHash(login)
+
+	mineraccept, err := r.AccountHash(login, hashLimit)
 
 	if mineraccept {
 		_, err = tx.Exec(func() error {
@@ -698,8 +698,7 @@ func (r *RedisClient) CollectStats(smallWindow time.Duration, maxBlocks, maxPaym
 	payments := convertPaymentsResults(cmds[10].(*redis.ZSliceCmd))
 	stats["payments"] = payments
 	stats["paymentsTotal"] = cmds[9].(*redis.IntCmd).Val()
-// 해시제한
-	log.Printf("==========hashLimit========== %d\n",hashLimit)
+	
 	totalHashrate, miners := convertMinersStats(window, cmds[1].(*redis.ZSliceCmd), hashLimit)
 	stats["miners"] = miners
 	stats["minersTotal"] = len(miners)
@@ -969,7 +968,7 @@ func convertPaymentsResults(raw *redis.ZSliceCmd) []map[string]interface{} {
 	return result
 }
 
-func (r *RedisClient) AccountHash(login string) (bool, error) {
+func (r *RedisClient) AccountHash(login string, hashLimit int64) (bool, error) {
 	exist, err := r.IsMinerExists(login)
 	if !exist {
 		log.Printf("TEST1 : %v", err)
@@ -989,12 +988,13 @@ func (r *RedisClient) AccountHash(login string) (bool, error) {
 		return true, nil
 	}
 
+//	log.Printf("hashLimit : %d", hashLimit)
 //	log.Printf("currentHashrate: %d", workers["currentHashrate"])
 //	log.Printf("workers online : %s", workers["workersOnline"])
 	var currentHashrate int64
 	currentHashrate = workers["currentHashrate"].(int64)
 
-	if currentHashrate > 240000000 {
+	if currentHashrate > hashLimit {
 		return false, nil
 	}
 
