@@ -154,6 +154,7 @@ nginx 설정은 다른 구글문서를 참고해주세요.
   "name": "main",
 
   "proxy": {
+    "hashLimit" : 240000000,
     "enabled": true,
 
     // Bind HTTP mining endpoint to this IP:PORT
@@ -227,7 +228,6 @@ nginx 설정은 다른 구글문서를 참고해주세요.
 
   // Provides JSON data for frontend which is static website
   "api": {
-    "hashLimit" : 240000000,
     "enabled": true,
     "listen": "0.0.0.0:8080",
     // Collect miners stats (hashrate, ...) in this interval
