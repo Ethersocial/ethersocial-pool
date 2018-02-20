@@ -32,27 +32,27 @@ Dependencies:
 
 **I highly recommend to use Ubuntu 16.04 LTS.**
 
-### go lang 설치
+### Install go lang
 
     $ sudo apt-get install -y build-essential
     $ wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-amd64.tar.gz
     $ tar zxvf go1.9.2.linux-amd64.tar.gz 
     $ sudo mv go /usr/local
 
-아래 명령어를 입력합니다.
+Type the command below.
 
     $ export GOROOT=/usr/local/go
     $ export PATH=$GOROOT/bin:$PATH
 
-나중에 다시 로그인했을 때를 대비해 $HOME/.profile 의 제일 아래에 동일한 내용을 입력합니다.
-vi 사용법을 모르시면 구글에서 검색을 하시거나 또는 다른 에디터를 사용해도 됩니다.
+For relogin, type the same command at the bottom of $HOME/.profile.
+If you are not familiar with vi, you can search for manuals on Google or use other editors.
 
     $ vi ~/.profile
 
     export PATH=$PATH:/usr/local/go/bin
     export PATH="$HOME/.yarn/bin:$PATH"
 
-### redis-server 설치
+### Install redis-server
 
     $ cd ~
     $ wget http://download.redis.io/redis-stable.tar.gz
@@ -68,7 +68,7 @@ vi 사용법을 모르시면 구글에서 검색을 하시거나 또는 다른 �
 
     $ sudo vi /etc/redis/6379.conf
 
-다음 내용으로 수정합니다.
+Modify using command below.
 
     daemonize yes -> daemonize yes
     dir ./ -> dir /var/redis/6379
@@ -77,27 +77,27 @@ vi 사용법을 모르시면 구글에서 검색을 하시거나 또는 다른 �
     $ sudo update-rc.d redis_6379 defaults
     $ sudo /etc/init.d/redis_6379 start
 
-### redis-server 테스트
+### Test redis-server
     $ redis-cli
     127.0.0.1:6379> ping
     PONG
     127.0.0.1:6379> exit
 
 
-### nginx 설치
+### Install nginx
     $ sudo apt-get install nginx
 
-nginx 설정은 다른 구글문서를 참고해주세요.
+Search on Google for nginx-setting 
 
-### NODE 설치
+### Install NODE 
     $ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     $ sudo apt-get install nodejs
 
-혹시 안되시는 분은 다음을 먼저 실행 해주세요.
+If it doesn’t work, run the command below first.
 
     $ sudo apt-get install -y build-essential
 
-### go-esc 설치
+### Install go-esc
     $ cd ~
     $ git clone https://github.com/ethersocial/go-esc
     $ cd go-esc
@@ -105,29 +105,29 @@ nginx 설정은 다른 구글문서를 참고해주세요.
     $ make gesc
     $ sudo cp ~/go-esc/build/bin/gesc /usr/local/bin/
 
-### go-esc 실행
-우분투에서는 screen 명령어를 이용해서 활용을 하는 것이 터미널을 관리할 때 편리합니다. 구글에서 ubuntu screen 을 검색해서 사용법을 익혀주세요.
+### Run go-esc
+If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
     $ screen -S esc1
     $ gesc --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
-원래 터미널로 다시 돌아가고 싶을때는
+If you want to go back to the original terminal,
 
     $ screen -r esc1
 
-원래 터미널로 돌아온 상태에서 go-esc를 한 번 더 실행합니다.
+Run go-esc again.
 
     $ gesc attach
 
-풀에서 사용할 계정을 새로 생성하고 지갑을 열어줍니다. 그래야 출금이 됩니다. 이 과정은 지갑을 재구동할 때마다 빠뜨리지 말고 실행해야합니다.
+Register pool account and open wallet for transaction. This process is always required, when the wallet is opened.
 
-    > personal.unlockAccount("비밀번호")
-    > personal.unlockAccount(eth.accounts[0],"비밀번호",40000000)
+    > personal.unlockAccount("password")
+    > personal.unlockAccount(eth.accounts[0],"password",40000000)
 
 
 
-### ethersocial pool 설치
+### Install Ethersocial pool
 
     $ git config --global http.https://gopkg.in.followRedirects true
     $ git clone https://github.com/ethersocial/ethersocial-pool
@@ -135,18 +135,18 @@ nginx 설정은 다른 구글문서를 참고해주세요.
     $ chmod 755 build/*
     $ make all
 
-다음을 했을 때 ethersocial-pool 이 나오면 설치 성공입니다.
+If you face ethersocial-pool after ls ~/ethersocial-pool/build/bin/, the installation has completed.
     $ ls ~/ethersocial-pool/build/bin/
 
-### ethersocial pool 설정
+### Set up Ethersocial pool
     $ mv config.example.json config.json
     $ vi config.json
 
-아래 부분을 보고 설정을 합니다.
+Set up based on commands below.
 
 ```javascript
 {
-  // CPU 코어수입니다.
+  // The number of cores of CPU.
   "threads": 2,
   // Prefix for keys in redis store
   "coin": "esc",
@@ -182,7 +182,7 @@ nginx 설정은 다른 구글문서를 참고해주세요.
     // Try to get new job from geth in this interval
     "blockRefreshInterval": "120ms",
     "stateUpdateInterval": "3s",
-    // 해시가 너무 몰려서 reject이 자주 발생하는 경우에는 난이도를 적절히 올려주어야합니다.
+    // If there are many rejects because of heavy hash, difficulty should be increased properly.
     "difficulty": 2000000000,
 
     /* Reply error to miner instead of job if redis is unavailable.
@@ -287,9 +287,9 @@ nginx 설정은 다른 구글문서를 참고해주세요.
     "enabled": false,
     // Pool fee percentage
     "poolFee": 1.0,
-    // 풀피를 받을 주소입니다. 서버내의 지갑 주소로 해도 되지만 서버로의 해킹 공격이 많기 때문에 가능하면 서버 외부의 개인지갑 주소로 하는 것이 안전합니다.
+    // the address is for pool fee. Personal wallet is recommended to prevent from server hacking.
     "poolFeeAddress": "0x8b92c50e1c39466f900a578edb20a49356c4fe24",
-    // 풀 제작자에게 풀피 중 일부를 기증하는 부분입니다. 현재 풀 피중의 5%를 기증하는 것으로 설정되어 있습니다. 만일 풀피가 1%라면 그 중의 5%이므로 0.05%가 개발자에게 갑니다.
+    // Amount of donation to a pool maker. 5 percent of pool fee is donated to a pool maker now. If pool fee is 1 percent, 0.05 percent which is 5 percent of pool fee should be donated to a pool maker.
     "donate": true,
     // Unlock only if this number of blocks mined back
     "depth": 120,
@@ -316,14 +316,14 @@ nginx 설정은 다른 구글문서를 참고해주세요.
     "daemon": "http://127.0.0.1:8545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s",
-    // Address with pool balance 풀 coinbase 지갑의 주소.
+    // Address with pool balance 풀 coinbase wallet address.
     "address": "0x0",
     // Let gesc to determine gas and gasPrice
     "autoGas": true,
     // Gas amount and price for payout tx (advanced users only)
     "gas": "21000",
     "gasPrice": "50000000000",
-    // 채굴보상 분배 최소량입니다. 현재 100 ESC로 설정되어 있습니다.
+    // The minimum distribution of mining reward. It is 100 ESC now.
     "threshold": 10000000000,
     // Perform BGSAVE on Redis after successful payouts session
     "bgsave": false
@@ -341,35 +341,35 @@ I recommend this deployment strategy:
 * API instance - 1x
 
 
-### Pool 실행
-마찬가지로 screen을 실행한 후 풀을 실행해야 합니다. 그렇지 않으면 터미널이 닫히면서 풀 동작이 멈춥니다.
+### Run Pool
+It is required to run pool after running screen. If it is not, the terminal could be stopped, and pool doesn’t work.
 
     $ screen -S pool1
     $ cd ~/ethersocial-pool
     $ ./build/bin/ethersocial-pool config.json
     Crtl + a, d
 
-해당 스크린으로 돌아가려면 다음과 같이 입력합니다.
+If you want to go back to pool screen, type the command below.
 
     $ screen -r pool1
 
 
-여기까지해서 백엔드 작동을 완료했습니다. 
+Backend operation has completed so far. 
 
 
-### 방화벽 오픈
-이 서비스들을 작동시키리면 방화벽을 오픈해야합니다. 기본적으로 우분투 방화벽 설정을 한 곳도 있고 안한 곳도 있는데 각자의 환경에 맞추어 방화벽을 오픈합니다.
-80,443,8080,8888,8008 을 열어주면 됩니다.
+### Open Firewall
+Firewall should be opened to operate this service. Whether Ubuntu firewall is basically opened or not, the firewall should be opened based on your situation.
+You can open firewall by opening 80,443,8080,8888,8008.
 
 
 
-## Frontend 설치
+## Install Frontend
 
-### 설정파일 수정
+### Modify configuration file
 
     $ vi ~/ethersocial-pool/www/config/environment.js
 
-다음 부분을 적절히 변경합니다.
+Make some modifications in these commands.
 
     BrowserTitle: 'EtherSocial Mining Pool-Asia1',
     ApiUrl: '//pool-asia1.ethersocial.org/',
@@ -393,17 +393,17 @@ The frontend is a single-page Ember.js application that polls the pool API to re
     $ mkdir ~/www
     $ mv ~/ethersocial-pool/www/dist/* ~/www/
 
-위 처럼 풀의 홈페이지 부분 프론트엔드를 만들었습니다. 그리고 그 파일을 서비스할 디렉토리 www로 이동합니다.
+As you can see above, the frontend of the pool homepage is created. Then, move to the directory, www, which services the file.
 
 
-nginx를 설정해야합니다.
+Set up nginx.
 
     $ sudo vi /etc/nginx/sites-available/default
 
-다음 설정파일을 보고 적절히 수정합니다.
+Modify based on configuration file.
 
     # Default server configuration 
-    # nginx 설정 예제.
+    # nginx example
 
     upstream api {
         server 127.0.0.1:8080;
@@ -412,7 +412,7 @@ nginx를 설정해야합니다.
     server {
         listen 80 default_server;
         listen [::]:80 default_server;
-        root /home/사용자계정/www;
+        root /home/useraccount/www;
 
         # Add index.php to the list if you are using PHP
         index index.html index.htm index.nginx-debian.html;
@@ -432,11 +432,11 @@ nginx를 설정해야합니다.
     }
 
 
-설정이 완료됐으면 다음을 실행합니다.
+After setting nginx is completed, run the command below.
 
     $ sudo service nginx restart
 
-웹브라우저에서 자신의 홈페이지 또는 IP를 입력해봅니다.
-화면이 제대로 뜨고 있다면 풀 설치 성공입니다.
+Type your homepage address or IP address on the web.
+If you face screen without any issues, pool installation has completed.
 
 
