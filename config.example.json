@@ -1,18 +1,18 @@
 {
-        "threads": 2,
-        "coin": "esc",
-        "name": "main",
+	"threads": 2,
+	"coin": "esn",
+	"name": "main",
 
-        "proxy": {
-                "enabled": true,
-                "listen": "0.0.0.0:8888",
-                "limitHeadersSize": 1024,
-                "limitBodySize": 256,
-                "behindReverseProxy": false,
-                "blockRefreshInterval": "120ms",
-                "stateUpdateInterval": "3s",
-                "difficulty": 100000000,
-                "hashrateExpiration": "3h",
+	"proxy": {
+		"enabled": true,
+		"listen": "0.0.0.0:8888",
+		"limitHeadersSize": 1024,
+		"limitBodySize": 256,
+		"behindReverseProxy": false,
+		"blockRefreshInterval": "120ms",
+		"stateUpdateInterval": "3s",
+		"difficulty": 100000000,
+		"hashrateExpiration": "3h",
 
                 "healthCheck": true,
                 "maxFails": 100,
@@ -85,7 +85,7 @@
         },
 
 	"unlocker": {
-		"enabled": false,
+		"enabled": true,
 		"poolFee": 1.0,
 		"poolFeeAddress": "",
 		"donate": false,
@@ -99,19 +99,19 @@
 		"timeout": "10s"
 	},
 
-        "payouts": {
-                "enabled": true,
-                "requirePeers": 1,
-                "interval": "2m",
-                "daemon": "http://127.0.0.1:8545",
-                "timeout": "10s",
-                "address": "0x8b92c50e1c39466f900a578edb20a49356c4fe24",
-                "gas": "21000",
-                "gasPrice": "100000000000",
-                "autoGas": true,
-                "threshold": 10000000000,
-                "bgsave": false
-        },
+	"payouts": {
+		"enabled": true,
+		"requirePeers": 1,
+		"interval": "2m",
+		"daemon": "http://127.0.0.1:8545",
+		"timeout": "10s",
+		"address": "0x0",
+		"gas": "21000",
+		"gasPrice": "100000000000",
+		"autoGas": true,
+		"threshold": 10000000000,
+		"bgsave": false
+	},
 
         "newrelicEnabled": false,
         "newrelicName": "MyEtherProxy",
