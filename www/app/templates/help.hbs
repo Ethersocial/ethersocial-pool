@@ -3,14 +3,15 @@
     <h1>How To Mine</h1>
   </div>
   <p class="lead">In order to mine on this pool you need to have an
-    <a href="https://github.com/ethereum/webthree-umbrella/releases" rel="nofollow" target="_blank">ethminer</a> or <a href="https://bitcointalk.org/index.php?topic=1433925.0" rel="nofollow" target="_blank">Claymore dual miner</a> installation
+    <a href="https://github.com/ethereum-mining/ethminer/releases" rel="nofollow" target="_blank">ethminer</a> or <a href="https://bitcointalk.org/index.php?topic=1433925.0" rel="nofollow" target="_blank">Claymore dual miner</a> installation
     pointed to<br/>
-	<code>EthDcrMiner64 -epool {{config.StratumHost}}:{{config.StratumPort}} -esm 0 -ewal &lt;YOUR_ESC_ADDRESS&gt; -eworker &lt;WORKER&gt; -allcoins 1 -allpools 1</code><br/>
-	<code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/YOUR_ESC_ADDRESS/Worker_ID</code>
+	<code>EthDcrMiner64 -epool {{config.StratumHost}}:{{config.StratumPort}} -esm 0 -ewal &lt;YOUR_ESN_ADDRESS&gt; -allcoins 1 -allpools 1</code><br/>
+	<code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/YOUR_ESN_ADDRESS/Worker_ID</code><br/>
+	<code>ethminer -S {{config.StratumHost}}:{{config.StratumPort}}/YOUR_ESN_ADDRESS/Worker_ID</code><br/>
   </p>
   <dl class="dl-horizontal">
-    <dt>YOUR_ESC_ADDRESS</dt>
-    <dd>This is your address for payouts, generate one with gesc, ESC-mist.<br/>
+    <dt>YOUR_ESN_ADDRESS</dt>
+    <dd>This is your address for payouts, generate one with gesn or ESN Wallet or <a href="">online wallet site.</a><br/>
       <strong>Example:</strong> <code>0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06</code>.
     </dd>
     <dt>Worker_ID</dt>
@@ -22,8 +23,10 @@
   </dl>
   <p>
     <strong>Full example:</strong><br/>
-    <code>EthDcrMiner64 -epool {{config.StratumHost}}:8008 -esm 0 -ewal 0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06 -eworker worker01 -allcoins 1 -allpools 1</code><br/>
-    <code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06/worker1 -G --farm-recheck 200</code><br/><br/>
+    <code>EthDcrMiner64 -epool {{config.StratumHost}}:{{config.StratumPort}} -esm 0 -ewal 0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06 -allcoins 1 -allpools 1</code><br/><br/>
+    <code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06/worker1 -G --farm-recheck 200 (via HTTP, AMD GPU)</code><br/>
+    <code>ethminer -F {{config.HttpHost}}:{{config.HttpPort}}/0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06/worker1 -U --farm-recheck 200 (via HTTP, NVidia GPU)</code><br/>
+    <code>ethminer -S {{config.StratumHost}}:{{config.StratumPort}}/0x962bad39df25d64ee1c6b4ae9c14a18d316bfc06/worker1 -U --farm-recheck 200 (via Stratum, NVidia GPU)</code><br/>
 
   </p>
 

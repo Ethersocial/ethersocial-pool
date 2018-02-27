@@ -30,7 +30,7 @@
   <div class="stats">
     <h4>Your Stats &amp; Payment History</h4>
     <div class="input-group">
-      {{input value=cachedLogin class="form-control" placeholder="Enter Your ESC Address"}}
+      {{input value=cachedLogin class="form-control" placeholder="Enter Your Wallet Address"}}
       <span class="input-group-btn">
         <button class="btn btn-primary" type="button" {{action 'lookup' cachedLogin}}>
           <span style="display: inline;"><i class="fa fa-search"></i> Lookup</span>
@@ -44,7 +44,7 @@
     {{high-charts mode=chartMode chartOptions=chartOptions content=chartData}}
     </div>
     <h4 class="note note-info text-center">
-      .exe -epool {{config.StratumHost}}:8008 -esm 0 -ewal &lt;address&gt; -eworker &lt;WORKER&gt; -allcoins 1 -allpools 1
+      EthDcrMiner64.exe -epool {{config.StratumHost}}:8008 -esm 0 -ewal &lt;address&gt; -allcoins 1 -allpools 1
     </h4>
   </div>
   <div>
