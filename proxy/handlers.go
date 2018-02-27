@@ -107,3 +107,9 @@ func (s *ProxyServer) handleUnknownRPC(cs *Session, m string) *ErrorReply {
 	s.policy.ApplyMalformedPolicy(cs.ip)
 	return &ErrorReply{Code: -3, Message: "Method not found"}
 }
+
+func (s *ProxyServer) handleUnknownRPCstratum(cs *Session, m string) *ErrorReply {
+	log.Printf("Unknown request method stratum %s from %s", m, cs.ip)
+	s.policy.ApplyMalformedPolicy(cs.ip)
+	return &ErrorReply{Code: -3, Message: "Method not found"}
+}

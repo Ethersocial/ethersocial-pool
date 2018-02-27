@@ -1,6 +1,6 @@
 {
 	"threads": 2,
-	"coin": "eth",
+	"coin": "esn",
 	"name": "main",
 
 	"proxy": {
@@ -11,7 +11,7 @@
 		"behindReverseProxy": false,
 		"blockRefreshInterval": "120ms",
 		"stateUpdateInterval": "3s",
-		"difficulty": 2000000000,
+		"difficulty": 100000000,
 		"hashrateExpiration": "3h",
 
 		"healthCheck": true,
@@ -85,7 +85,7 @@
 	},
 
 	"unlocker": {
-		"enabled": false,
+		"enabled": true,
 		"poolFee": 1.0,
 		"poolFeeAddress": "",
 		"donate": false,
@@ -100,16 +100,16 @@
 	},
 
 	"payouts": {
-		"enabled": false,
-		"requirePeers": 25,
-		"interval": "120m",
+		"enabled": true,
+		"requirePeers": 1,
+		"interval": "2m",
 		"daemon": "http://127.0.0.1:8545",
 		"timeout": "10s",
 		"address": "0x0",
 		"gas": "21000",
-		"gasPrice": "50000000000",
+		"gasPrice": "100000000000",
 		"autoGas": true,
-		"threshold": 500000000,
+		"threshold": 10000000000,
 		"bgsave": false
 	},
 
