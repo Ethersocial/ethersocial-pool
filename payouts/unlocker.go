@@ -20,6 +20,8 @@ type UnlockerConfig struct {
 	PoolFee        float64 `json:"poolFee"`
 	PoolFeeAddress string  `json:"poolFeeAddress"`
 	Donate         bool    `json:"donate"`
+	DonateFee      float64 `json:"donateFee"`
+	DonateAddress  string  `json:"donateAddress"`
 	Depth          int64   `json:"depth"`
 	ImmatureDepth  int64   `json:"immatureDepth"`
 	KeepTxFees     bool    `json:"keepTxFees"`
@@ -35,10 +37,6 @@ var byzantiumHardForkHeight int64 = 4370000
 var homesteadReward = math.MustParseBig256("5000000000000000000")
 var byzantiumReward = math.MustParseBig256("3000000000000000000")
 
-// Donate 10% from pool fees to developers
-const donationFee = 10.0
-const donationAccount = "0xb85150eb365e7df0941f0cf08235f987ba91506a"
-
 type BlockUnlocker struct {
 	config   *UnlockerConfig
 	backend  *storage.RedisClient
@@ -50,6 +48,9 @@ type BlockUnlocker struct {
 func NewBlockUnlocker(cfg *UnlockerConfig, backend *storage.RedisClient) *BlockUnlocker {
 	if len(cfg.PoolFeeAddress) != 0 && !util.IsValidHexAddress(cfg.PoolFeeAddress) {
 		log.Fatalln("Invalid poolFeeAddress", cfg.PoolFeeAddress)
+	}
+	if len(cfg.DonateAddress) != 0 && !util.IsValidHexAddress(cfg.DonateAddress) {
+		log.Fatalln("Invalid donateAddress", cfg.DonateAddress)
 	}
 	if cfg.Depth < minDepth*2 {
 		log.Fatalf("Block maturity depth can't be < %v, your depth is %v", minDepth*2, cfg.Depth)
@@ -488,10 +489,11 @@ func (u *BlockUnlocker) calculateRewards(block *storage.BlockData) (*big.Rat, *b
 		revenue.Add(revenue, extraReward)
 	}
 
-	if u.config.Donate {
+	if u.config.Donate && len(u.config.DonateAddress) != 0 {
+		// Donate fraction of pool fees to developers
 		var donation = new(big.Rat)
-		poolProfit, donation = chargeFee(poolProfit, donationFee)
-		login := strings.ToLower(donationAccount)
+		poolProfit, donation = chargeFee(poolProfit, u.config.DonateFee)
+		login := strings.ToLower(u.config.DonateAddress)
 		rewards[login] += weiToShannonInt64(donation)
 	}
 
