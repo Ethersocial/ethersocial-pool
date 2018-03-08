@@ -109,7 +109,7 @@ If it doesn’t work, run the command below first.
 If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
     $ screen -S esc1
-    $ gesc --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    $ gesc --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
 If you want to go back to the original terminal,
@@ -263,12 +263,12 @@ Set up based on commands below.
   "upstream": [
     {
       "name": "main",
-      "url": "http://127.0.0.1:8545",
+      "url": "http://127.0.0.1:9545",
       "timeout": "10s"
     },
     {
       "name": "backup",
-      "url": "http://127.0.0.2:8545",
+      "url": "http://127.0.0.2:9545",
       "timeout": "10s"
     }
   ],
@@ -300,7 +300,7 @@ Set up based on commands below.
     // Run unlocker in this interval
     "interval": "10m",
     // Gesc instance node rpc endpoint for unlocking blocks
-    "daemon": "http://127.0.0.1:8545",
+    "daemon": "http://127.0.0.1:9545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s"
   },
@@ -313,7 +313,7 @@ Set up based on commands below.
     // Run payouts in this interval
     "interval": "12h",
     // Gesc instance node rpc endpoint for payouts processing
-    "daemon": "http://127.0.0.1:8545",
+    "daemon": "http://127.0.0.1:9545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s",
     // Address with pool balance 풀 coinbase wallet address.
