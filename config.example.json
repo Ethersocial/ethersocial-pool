@@ -63,12 +63,12 @@
         "upstream": [
                 {
                         "name": "main",
-                        "url": "http://127.0.0.1:8545",
+                        "url": "http://127.0.0.1:9545",
                         "timeout": "10s"
                 },
                 {
                         "name": "backup",
-                        "url": "http://127.0.0.2:8545",
+                        "url": "http://127.0.0.2:9545",
                         "timeout": "10s"
                 }
         ],
@@ -89,7 +89,7 @@
                 "immatureDepth": 20,
                 "keepTxFees": false,
                 "interval": "10m",
-                "daemon": "http://127.0.0.1:8545",
+                "daemon": "http://127.0.0.1:9545",
                 "timeout": "10s"
         },
 
@@ -97,7 +97,7 @@
                 "enabled": true,
                 "requirePeers": 1,
                 "interval": "2m",
-                "daemon": "http://127.0.0.1:8545",
+                "daemon": "http://127.0.0.1:9545",
                 "timeout": "10s",
                 "address": "0x8b92c50e1c39466f900a578edb20a49356c4fe24",
                 "gas": "21000",
