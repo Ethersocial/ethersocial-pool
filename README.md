@@ -28,7 +28,7 @@ Dependencies:
   * redis-server >= 2.8.0
   * nodejs >= 4 LTS
   * nginx
-  * gesn
+  * gesc
 
 **I highly recommend to use Ubuntu 16.04 LTS.**
 
@@ -97,28 +97,28 @@ If it doesn’t work, run the command below first.
 
     $ sudo apt-get install -y build-essential
 
-### Install go-esn
+### Install go-esc
     $ cd ~
-    $ git clone https://github.com/ethersocial/go-esn
-    $ cd go-esn
+    $ git clone https://github.com/ethersocial/go-esc
+    $ cd go-esc
     $ chmod 755 build/*
-    $ make gesn
-    $ sudo cp ~/go-esn/build/bin/gesn /usr/local/bin/
+    $ make gesc
+    $ sudo cp ~/go-esc/build/bin/gesc /usr/local/bin/
 
-### Run go-esn
+### Run go-esc
 If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
-    $ screen -S esn1
-    $ gesn --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    $ screen -S esc1
+    $ gesc --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
 If you want to go back to the original terminal,
 
-    $ screen -r esn1
+    $ screen -r esc1
 
-Run go-esn again.
+Run go-esc again.
 
-    $ gesn attach
+    $ gesc attach
 
 Register pool account and open wallet for transaction. This process is always required, when the wallet is opened.
 
@@ -149,7 +149,7 @@ Set up based on commands below.
   // The number of cores of CPU.
   "threads": 2,
   // Prefix for keys in redis store
-  "coin": "esn",
+  "coin": "esc",
   // Give unique name to each instance
   "name": "main",
 
@@ -299,7 +299,7 @@ Set up based on commands below.
     "keepTxFees": false,
     // Run unlocker in this interval
     "interval": "10m",
-    // Gesn instance node rpc endpoint for unlocking blocks
+    // Gesc instance node rpc endpoint for unlocking blocks
     "daemon": "http://127.0.0.1:8545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s"
@@ -312,13 +312,13 @@ Set up based on commands below.
     "requirePeers": 5,
     // Run payouts in this interval
     "interval": "12h",
-    // Gesn instance node rpc endpoint for payouts processing
+    // Gesc instance node rpc endpoint for payouts processing
     "daemon": "http://127.0.0.1:8545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s",
     // Address with pool balance 풀 coinbase wallet address.
     "address": "0x0",
-    // Let gesn to determine gas and gasPrice
+    // Let gesc to determine gas and gasPrice
     "autoGas": true,
     // Gas amount and price for payout tx (advanced users only)
     "gas": "21000",
