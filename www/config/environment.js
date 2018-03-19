@@ -14,9 +14,8 @@ module.exports = function(environment) {
     },
 
     APP: {
-		// Browser Title
-		BrowserTitle: 'EtherSocial Mining Pool-Asia',
-
+      // PoolName
+      PoolName: 'EtherSocial',
       // API host and port
       ApiUrl: '//pool-asia.ethersocial.org/',
 
@@ -28,11 +27,23 @@ module.exports = function(environment) {
       StratumHost: 'pool-asia.ethersocial.org',
       StratumPort: 8008,
 
+      // NicehashStratum mining endpoint
+      NicehashHost: 'example.net',
+      NicehashPort: 8088,
+
       // Fee and payout details
       PoolFee: '1%',
       PayoutThreshold: '1 ESN',
+      PayoutInterval: '2m',
+      Unit: 'ESN',
+      EtherUnit: 'ESN',
 
       // For network hashrate (change for your favourite fork)
+      BlockExplorerLink: 'https://ethersocial.net',
+      BlockExplorerAddrLink: 'https://ethersocial.net/addr',
+      DonationLink: false,
+      DonationAddress: '',
+      BlockReward: 5,
       BlockTime: 14.4
     }
   };

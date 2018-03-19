@@ -6,7 +6,14 @@ export default Ember.Route.extend({
 		var url = config.APP.ApiUrl + 'api/accounts/' + params.login;
     return Ember.$.getJSON(url).then(function(data) {
       data.login = params.login;
-      return Ember.Object.create(data);
+
+      // setup network hashrate
+      var staturl = config.APP.ApiUrl + 'api/stats';
+      return Ember.$.getJSON(staturl).then(function(response) {
+        var stats = Ember.Object.create(response);
+        data.nethashrate = stats.nodes[0].difficulty / config.APP.BlockTime;
+        return Ember.Object.create(data);
+      });
     });
 	},
 
