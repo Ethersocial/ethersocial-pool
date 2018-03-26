@@ -137,11 +137,6 @@ span.logo-3 {
 	border-radius: 5px;
 }
  
- .note, code, .alert-info>a{
- 	word-break:break-word;
- 	word-wrap:break-word;
-}
-
 .note, code, .alert-info>a{
 	word-break:break-word;
 	word-wrap:break-word;
