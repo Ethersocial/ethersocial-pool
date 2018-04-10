@@ -994,7 +994,7 @@ func (r *RedisClient) AccountHash(login string, hashLimit int64) (bool, error) {
 	var currentHashrate int64
 	currentHashrate = workers["currentHashrate"].(int64)
 
-	if currentHashrate > hashLimit {
+	if hashLimit > 0 && hashLimit < currentHashrate {
 		return false, nil
 	}
 
