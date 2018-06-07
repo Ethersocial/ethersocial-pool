@@ -1,12 +1,12 @@
-## Open Source Ethereum Mining Pool
+## Open Source EtherSocial Mining Pool
 
 ![Miner's stats page](https://user-images.githubusercontent.com/7374093/31591180-43c72364-b236-11e7-8d47-726cd66b876a.png)
 
 [![Join the chat at https://gitter.im/sammy007/open-ethereum-pool](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sammy007/open-ethereum-pool?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/sammy007/open-ethereum-pool.svg?branch=develop)](https://travis-ci.org/sammy007/open-ethereum-pool) [![Go Report Card](https://goreportcard.com/badge/github.com/sammy007/open-ethereum-pool)](https://goreportcard.com/report/github.com/sammy007/open-ethereum-pool)
 
-### Features
+### Features  
 
-**This pool is being further developed to provide an easy to use pool for Ethereum miners. This software is functional however an optimised release of the pool is expected soon. Testing and bug submissions are welcome!**
+**This pool is being further developed to provide an easy to use pool for EtherSocial miners. This software is functional however an optimised release of the pool is expected soon. Testing and bug submissions are welcome!**
 
 * Support for HTTP and Stratum mining
 * Detailed block stats with luck percentage and full reward
@@ -18,98 +18,143 @@
 #### Proxies
 
 * [Ether-Proxy](https://github.com/sammy007/ether-proxy) HTTP proxy with web interface
-* [Stratum Proxy](https://github.com/Atrides/eth-proxy) for Ethereum
+* [Stratum Proxy](https://github.com/Atrides/eth-proxy) for EtherSocial
 
 ### Building on Linux
 
 Dependencies:
 
   * go >= 1.9
-  * geth or parity
   * redis-server >= 2.8.0
   * nodejs >= 4 LTS
   * nginx
+  * gesn
 
 **I highly recommend to use Ubuntu 16.04 LTS.**
 
-First install  [go-ethereum](https://github.com/ethereum/go-ethereum/wiki/Installation-Instructions-for-Ubuntu).
+### Install go lang
 
-Clone & compile:
+    $ sudo apt-get install -y build-essential
+    $ wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-amd64.tar.gz
+    $ tar zxvf go1.9.2.linux-amd64.tar.gz 
+    $ sudo mv go /usr/local
 
-    git config --global http.https://gopkg.in.followRedirects true
-    git clone https://github.com/sammy007/open-ethereum-pool.git
-    cd open-ethereum-pool
-    make
+Type the command below.
 
-Install redis-server.
+    $ export GOROOT=/usr/local/go
+    $ export PATH=$GOROOT/bin:$PATH
 
-### Running Pool
+For relogin, type the same command at the bottom of $HOME/.profile.
+If you are not familiar with vi, you can search for manuals on Google or use other editors.
 
-    ./build/bin/open-ethereum-pool config.json
+    $ vi ~/.profile
 
-You can use Ubuntu upstart - check for sample config in <code>upstart.conf</code>.
+    export PATH=$PATH:/usr/local/go/bin
+    export PATH="$HOME/.yarn/bin:$PATH"
 
-### Building Frontend
+### Install redis-server
 
-Install nodejs. I suggest using LTS version >= 4.x from https://github.com/nodesource/distributions or from your Linux distribution or simply install nodejs on Ubuntu Xenial 16.04.
+    $ cd ~
+    $ wget http://download.redis.io/redis-stable.tar.gz
+    $ tar xvzf redis-stable.tar.gz
+    $ cd redis-stable
+    $ make
+    $ sudo cp src/redis-server /usr/local/bin/
+    $ sudo cp src/redis-cli /usr/local/bin/
+    $ sudo mkdir /etc/redis
+    $ sudo mkdir /var/redis
+    $ sudo cp utils/redis_init_script /etc/init.d/redis_6379
+    $ sudo cp redis.conf /etc/redis/6379.conf
 
-The frontend is a single-page Ember.js application that polls the pool API to render miner stats.
+    $ sudo vi /etc/redis/6379.conf
 
-    cd www
+Modify using command below.
 
-Change <code>ApiUrl: '//example.net/'</code> in <code>www/config/environment.js</code> to match your domain name. Also don't forget to adjust other options.
+    daemonize yes -> daemonize yes
+    dir ./ -> dir /var/redis/6379
 
-    npm install -g ember-cli@2.9.1
-    npm install -g bower
-    npm install
-    bower install
-    ./build.sh
+    $ sudo mkdir /var/redis/6379
+    $ sudo update-rc.d redis_6379 defaults
+    $ sudo /etc/init.d/redis_6379 start
 
-Configure nginx to serve API on <code>/api</code> subdirectory.
-Configure nginx to serve <code>www/dist</code> as static website.
+### Test redis-server
+    $ redis-cli
+    127.0.0.1:6379> ping
+    PONG
+    127.0.0.1:6379> exit
 
-#### Serving API using nginx
 
-Create an upstream for API:
+### Install nginx
+    $ sudo apt-get install nginx
 
-    upstream api {
-        server 127.0.0.1:8080;
-    }
+Search on Google for nginx-setting 
 
-and add this setting after <code>location /</code>:
+### Install NODE 
+    $ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    $ sudo apt-get install nodejs
 
-    location /api {
-        proxy_pass http://api;
-    }
+If it doesn’t work, run the command below first.
 
-#### Customization
+    $ sudo apt-get install -y build-essential
 
-You can customize the layout using built-in web server with live reload:
+### Install go-esn
+    $ cd ~
+    $ git clone https://github.com/ethersocial/go-esn
+    $ cd go-esn
+    $ chmod 755 build/*
+    $ make gesn
+    $ sudo cp ~/go-esn/build/bin/gesn /usr/local/bin/
 
-    ember server --port 8082 --environment development
+### Run go-esn
+If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
-**Don't use built-in web server in production**.
+    $ screen -S esn1
+    $ gesn --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    Crtl + a, d
 
-Check out <code>www/app/templates</code> directory and edit these templates
-in order to customise the frontend.
+If you want to go back to the original terminal,
 
-### Configuration
+    $ screen -r esn1
 
-Configuration is actually simple, just read it twice and think twice before changing defaults.
+Run go-esn again.
 
-**Don't copy config directly from this manual. Use the example config from the package,
-otherwise you will get errors on start because of JSON comments.**
+    $ gesn attach
+
+Register pool account and open wallet for transaction. This process is always required, when the wallet is opened.
+
+    > personal.unlockAccount("password")
+    > personal.unlockAccount(eth.accounts[0],"password",40000000)
+
+
+
+### Install Ethersocial pool
+
+    $ git config --global http.https://gopkg.in.followRedirects true
+    $ git clone https://github.com/ethersocial/ethersocial-pool
+    $ cd ethersocial-pool
+    $ chmod 755 build/*
+    $ make all
+
+If you face ethersocial-pool after ls ~/ethersocial-pool/build/bin/, the installation has completed.
+    $ ls ~/ethersocial-pool/build/bin/
+
+### Set up Ethersocial pool
+    $ mv config.example.json config.json
+    $ vi config.json
+
+Set up based on commands below.
 
 ```javascript
 {
-  // Set to the number of CPU cores of your server
+  // The number of cores of CPU.
   "threads": 2,
   // Prefix for keys in redis store
-  "coin": "eth",
+  "coin": "esn",
   // Give unique name to each instance
   "name": "main",
 
   "proxy": {
+    "hashLimit" : 240000000,
     "enabled": true,
 
     // Bind HTTP mining endpoint to this IP:PORT
@@ -137,7 +182,7 @@ otherwise you will get errors on start because of JSON comments.**
     // Try to get new job from geth in this interval
     "blockRefreshInterval": "120ms",
     "stateUpdateInterval": "3s",
-    // Require this share difficulty from miners
+    // If there are many rejects because of heavy hash, difficulty should be increased properly.
     "difficulty": 2000000000,
 
     /* Reply error to miner instead of job if redis is unavailable.
@@ -218,12 +263,12 @@ otherwise you will get errors on start because of JSON comments.**
   "upstream": [
     {
       "name": "main",
-      "url": "http://127.0.0.1:8545",
+      "url": "http://127.0.0.1:9545",
       "timeout": "10s"
     },
     {
       "name": "backup",
-      "url": "http://127.0.0.2:8545",
+      "url": "http://127.0.0.2:9545",
       "timeout": "10s"
     }
   ],
@@ -242,9 +287,9 @@ otherwise you will get errors on start because of JSON comments.**
     "enabled": false,
     // Pool fee percentage
     "poolFee": 1.0,
-    // Pool fees beneficiary address (leave it blank to disable fee withdrawals)
-    "poolFeeAddress": "",
-    // Donate 10% from pool fees to developers
+    // the address is for pool fee. Personal wallet is recommended to prevent from server hacking.
+    "poolFeeAddress": "0x8b92c50e1c39466f900a578edb20a49356c4fe24",
+    // Amount of donation to a pool maker. 5 percent of pool fee is donated to a pool maker now. If pool fee is 1 percent, 0.05 percent which is 5 percent of pool fee should be donated to a pool maker.
     "donate": true,
     // Unlock only if this number of blocks mined back
     "depth": 120,
@@ -254,7 +299,7 @@ otherwise you will get errors on start because of JSON comments.**
     "keepTxFees": false,
     // Run unlocker in this interval
     "interval": "10m",
-    // Geth instance node rpc endpoint for unlocking blocks
+    // Gesn instance node rpc endpoint for unlocking blocks
     "daemon": "http://127.0.0.1:8545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s"
@@ -262,24 +307,24 @@ otherwise you will get errors on start because of JSON comments.**
 
   // Pay out miners using this module
   "payouts": {
-    "enabled": false,
+    "enabled": true,
     // Require minimum number of peers on node
-    "requirePeers": 25,
+    "requirePeers": 5,
     // Run payouts in this interval
     "interval": "12h",
-    // Geth instance node rpc endpoint for payouts processing
+    // Gesn instance node rpc endpoint for payouts processing
     "daemon": "http://127.0.0.1:8545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s",
-    // Address with pool balance
+    // Address with pool balance 풀 coinbase wallet address.
     "address": "0x0",
-    // Let geth to determine gas and gasPrice
+    // Let gesn to determine gas and gasPrice
     "autoGas": true,
     // Gas amount and price for payout tx (advanced users only)
     "gas": "21000",
     "gasPrice": "50000000000",
-    // Send payment only if miner's balance is >= 0.5 Ether
-    "threshold": 500000000,
+    // The minimum distribution of mining reward. It is 100 ESN now.
+    "threshold": 10000000000,
     // Perform BGSAVE on Redis after successful payouts session
     "bgsave": false
   }
@@ -295,30 +340,103 @@ I recommend this deployment strategy:
 * Unlocker and payouts instance - 1x each (strict!)
 * API instance - 1x
 
-### Notes
 
-* Unlocking and payouts are sequential, 1st tx go, 2nd waiting for 1st to confirm and so on. You can disable that in code. Carefully read `docs/PAYOUTS.md`.
-* Also, keep in mind that **unlocking and payouts will halt in case of backend or node RPC errors**. In that case check everything and restart.
-* You must restart module if you see errors with the word *suspended*.
-* Don't run payouts and unlocker modules as part of mining node. Create separate configs for both, launch independently and make sure you have a single instance of each module running.
-* If `poolFeeAddress` is not specified all pool profit will remain on coinbase address. If it specified, make sure to periodically send some dust back required for payments.
+### Run Pool
+It is required to run pool after running screen. If it is not, the terminal could be stopped, and pool doesn’t work.
 
-### Alternative Ethereum Implementations
+    $ screen -S pool1
+    $ cd ~/ethersocial-pool
+    $ ./build/bin/ethersocial-pool config.json
+    Crtl + a, d
 
-This pool is tested to work with [Ethcore's Parity](https://github.com/ethcore/parity). Mining and block unlocking works, but I am not sure about payouts and suggest to run *official* geth node for payments.
+If you want to go back to pool screen, type the command below.
 
-### Credits
+    $ screen -r pool1
 
-Made by sammy007. Licensed under GPLv3.
 
-#### Contributors
+Backend operation has completed so far. 
 
-[Alex Leverington](https://github.com/subtly)
 
-### Donations
+### Open Firewall
+Firewall should be opened to operate this service. Whether Ubuntu firewall is basically opened or not, the firewall should be opened based on your situation.
+You can open firewall by opening 80,443,8080,8888,8008.
 
-ETH/ETC: 0xb85150eb365e7df0941f0cf08235f987ba91506a
 
-![](https://cdn.pbrd.co/images/GP5tI1D.png)
 
-Highly appreciated.
+## Install Frontend
+
+### Modify configuration file
+
+    $ vi ~/ethersocial-pool/www/config/environment.js
+
+Make some modifications in these commands.
+
+    BrowserTitle: 'EtherSocial Mining Pool-Asia1',
+    ApiUrl: '//pool-asia1.ethersocial.org/',
+    HttpHost: 'http://pool-asia1.ethersocial.org',
+    StratumHost: 'pool-asia1.ethersocial.org',
+    PoolFee: '1%',
+
+
+Install nodejs. I suggest using LTS version >= 4.x from https://github.com/nodesource/distributions or from your Linux distribution or simply install nodejs on Ubuntu Xenial 16.04.
+
+
+The frontend is a single-page Ember.js application that polls the pool API to render miner stats.
+
+    $ cd ~/ethersocial-pool/www
+    $ sudo npm install -g ember-cli@2.9.1
+    $ sudo npm install -g bower
+    $ npm install
+    $ bower install
+    $ chmod 755 build.sh
+    $ ./build.sh
+    $ mkdir ~/www
+    $ mv ~/ethersocial-pool/www/dist/* ~/www/
+
+As you can see above, the frontend of the pool homepage is created. Then, move to the directory, www, which services the file.
+
+
+Set up nginx.
+
+    $ sudo vi /etc/nginx/sites-available/default
+
+Modify based on configuration file.
+
+    # Default server configuration 
+    # nginx example
+
+    upstream api {
+        server 127.0.0.1:8080;
+    }
+
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /home/useraccount/www;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+        }
+
+        location /api {
+                proxy_pass http://api;
+        }
+
+    }
+
+
+After setting nginx is completed, run the command below.
+
+    $ sudo service nginx restart
+
+Type your homepage address or IP address on the web.
+If you face screen without any issues, pool installation has completed.
+
+
