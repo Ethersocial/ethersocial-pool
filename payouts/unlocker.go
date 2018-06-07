@@ -58,6 +58,32 @@ func NewBlockUnlocker(cfg *UnlockerConfig, backend *storage.RedisClient) *BlockU
 	}
 	u := &BlockUnlocker{config: cfg, backend: backend}
 	u.rpc = rpc.NewRPCClient("BlockUnlocker", cfg.Daemon, cfg.Timeout)
+
+	block, err := u.rpc.GetBlockByHeight(0)
+	if err != nil || block == nil {
+		log.Fatalf("Error while retrieving genesis block from node: %v", err)
+	}
+
+	// EtherSocial Network
+	if block.Hash == "0x310dd3c4ae84dd89f1b46cfdd5e26c8f904dfddddc73f323b468127272e20e9f" {
+		log.Printf("Found genesis.hash is %v", block.Hash)
+		byzantiumHardForkHeight = 600000
+		homesteadReward = math.MustParseBig256("9000000000000000000")
+		byzantiumReward = math.MustParseBig256("5000000000000000000")
+
+		log.Printf("Set byzantiumHardForkHeight to %v", byzantiumHardForkHeight)
+		log.Printf("Set homesteadReward to %v", homesteadReward)
+		log.Printf("Set byzantiumReward to %v", byzantiumReward)
+	} else if block.Hash == "0x82270b80fc90beb005505a9ef95039639968a0e81b2904ad30128c93d713d2c4" {
+		// CLO Network
+		log.Printf("Found genesis.hash is %v", block.Hash)
+		byzantiumHardForkHeight = 0
+		byzantiumReward = math.MustParseBig256("420000000000000000000")
+
+		log.Printf("Set byzantiumHardForkHeight(not used) to %v", byzantiumHardForkHeight)
+		log.Printf("Set homesteadReward(not used) to %v", homesteadReward)
+		log.Printf("Set byzantiumReward(CLO reward) to %v", byzantiumReward)
+	}
 	return u
 }
 
