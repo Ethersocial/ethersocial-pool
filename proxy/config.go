@@ -1,10 +1,10 @@
 package proxy
 
 import (
-	"github.com/ethersocial/ethersocial-pool/api"
-	"github.com/ethersocial/ethersocial-pool/payouts"
-	"github.com/ethersocial/ethersocial-pool/policy"
-	"github.com/ethersocial/ethersocial-pool/storage"
+	"github.com/sammy007/open-ethereum-pool/api"
+	"github.com/sammy007/open-ethereum-pool/payouts"
+	"github.com/sammy007/open-ethereum-pool/policy"
+	"github.com/sammy007/open-ethereum-pool/storage"
 )
 
 type Config struct {
@@ -29,7 +29,6 @@ type Config struct {
 }
 
 type Proxy struct {
-	HashLimit        int64   `json:"hashLimit"`
 	Enabled              bool   `json:"enabled"`
 	Listen               string `json:"listen"`
 	LimitHeadersSize     int    `json:"limitHeadersSize"`

@@ -151,16 +151,6 @@ h1, h2, h3, h4, h4, h6 {
 	word-break:break-word;
 	word-wrap:break-word;
 }
- 
- .note, code, .alert-info>a{
- 	word-break:break-word;
- 	word-wrap:break-word;
-}
-
-.note, code, .alert-info>a{
-	word-break:break-word;
-	word-wrap:break-word;
-}
 
 .note-info {
 	background-color: #E8F6FC;

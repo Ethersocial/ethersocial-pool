@@ -17,14 +17,14 @@ module.exports = function(environment) {
       // PoolName
       PoolName: 'EtherSocial',
       // API host and port
-      ApiUrl: '//pool-asia.ethersocial.org/',
+      ApiUrl: '//example.net/',
 
       // HTTP mining endpoint
-      HttpHost: 'http://pool-asia.ethersocial.org',
+      HttpHost: 'http://example.net',
       HttpPort: 8888,
 
       // Stratum mining endpoint
-      StratumHost: 'pool-asia.ethersocial.org',
+      StratumHost: 'example.net',
       StratumPort: 8008,
 
       // NicehashStratum mining endpoint

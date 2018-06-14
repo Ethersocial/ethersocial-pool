@@ -14,12 +14,11 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/robfig/cron"
 
-	"github.com/ethersocial/ethersocial-pool/storage"
-	"github.com/ethersocial/ethersocial-pool/util"
+	"github.com/sammy007/open-ethereum-pool/storage"
+	"github.com/sammy007/open-ethereum-pool/util"
 )
 
 type ApiConfig struct {
-	HashLimit            int64  `json:"hashLimit"`
 	Enabled              bool   `json:"enabled"`
 	Listen               string `json:"listen"`
 	PoolCharts           string `json:"poolCharts"`
@@ -197,7 +196,7 @@ func (s *ApiServer) purgeStale() {
 
 func (s *ApiServer) collectStats() {
 	start := time.Now()
-	stats, err := s.backend.CollectStats(s.hashrateWindow, s.config.Blocks, s.config.Payments, s.config.HashLimit)
+	stats, err := s.backend.CollectStats(s.hashrateWindow, s.config.Blocks, s.config.Payments)
 	if err != nil {
 		log.Printf("Failed to fetch stats from backend: %v", err)
 		return

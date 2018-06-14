@@ -14,37 +14,37 @@
 		"difficulty": 100000000,
 		"hashrateExpiration": "3h",
 
-                "healthCheck": true,
-                "maxFails": 100,
+		"healthCheck": true,
+		"maxFails": 100,
 
-                "stratum": {
-                        "enabled": true,
-                        "listen": "0.0.0.0:8008",
-                        "timeout": "120s",
-                        "maxConn": 8192
-                },
+		"stratum": {
+			"enabled": true,
+			"listen": "0.0.0.0:8008",
+			"timeout": "120s",
+			"maxConn": 8192
+		},
 
-                "policy": {
-                        "workers": 8,
-                        "resetInterval": "60m",
-                        "refreshInterval": "1m",
+		"policy": {
+			"workers": 8,
+			"resetInterval": "60m",
+			"refreshInterval": "1m",
 
-                        "banning": {
-                                "enabled": false,
-                                "ipset": "blacklist",
-                                "timeout": 1800,
-                                "invalidPercent": 30,
-                                "checkThreshold": 30,
-                                "malformedLimit": 5
-                        },
-                        "limits": {
-                                "enabled": false,
-                                "limit": 30,
-                                "grace": "5m",
-                                "limitJump": 10
-                        }
-                }
-        },
+			"banning": {
+				"enabled": false,
+				"ipset": "blacklist",
+				"timeout": 1800,
+				"invalidPercent": 30,
+				"checkThreshold": 30,
+				"malformedLimit": 5
+			},
+			"limits": {
+				"enabled": false,
+				"limit": 30,
+				"grace": "5m",
+				"limitJump": 10
+			}
+		}
+	},
 
 	"api": {
 		"enabled": true,
@@ -63,26 +63,26 @@
 		"minerChartsNum":74
 	},
 
-        "upstreamCheckInterval": "5s",
-        "upstream": [
-                {
-                        "name": "main",
-                        "url": "http://127.0.0.1:8545",
-                        "timeout": "10s"
-                },
-                {
-                        "name": "backup",
-                        "url": "http://127.0.0.2:8545",
-                        "timeout": "10s"
-                }
-        ],
+	"upstreamCheckInterval": "5s",
+	"upstream": [
+		{
+			"name": "main",
+			"url": "http://127.0.0.1:8545",
+			"timeout": "10s"
+		},
+		{
+			"name": "backup",
+			"url": "http://127.0.0.2:8545",
+			"timeout": "10s"
+		}
+	],
 
-        "redis": {
-                "endpoint": "127.0.0.1:6379",
-                "poolSize": 10,
-                "database": 0,
-                "password": ""
-        },
+	"redis": {
+		"endpoint": "127.0.0.1:6379",
+		"poolSize": 10,
+		"database": 0,
+		"password": ""
+	},
 
 	"unlocker": {
 		"enabled": true,
@@ -109,12 +109,12 @@
 		"gas": "21000",
 		"gasPrice": "100000000000",
 		"autoGas": true,
-		"threshold": 10000000000,
+		"threshold": 1000000000,
 		"bgsave": false
 	},
 
-        "newrelicEnabled": false,
-        "newrelicName": "MyEtherProxy",
-        "newrelicKey": "SECRET_KEY",
-        "newrelicVerbose": false
+	"newrelicEnabled": false,
+	"newrelicName": "MyEtherProxy",
+	"newrelicKey": "SECRET_KEY",
+	"newrelicVerbose": false
 }

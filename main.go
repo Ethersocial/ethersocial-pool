@@ -13,10 +13,10 @@ import (
 
 	"github.com/yvasiyarov/gorelic"
 
-	"github.com/ethersocial/ethersocial-pool/api"
-	"github.com/ethersocial/ethersocial-pool/payouts"
-	"github.com/ethersocial/ethersocial-pool/proxy"
-	"github.com/ethersocial/ethersocial-pool/storage"
+	"github.com/sammy007/open-ethereum-pool/api"
+	"github.com/sammy007/open-ethereum-pool/payouts"
+	"github.com/sammy007/open-ethereum-pool/proxy"
+	"github.com/sammy007/open-ethereum-pool/storage"
 )
 
 var cfg proxy.Config
