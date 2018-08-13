@@ -101,13 +101,13 @@
 
 	"payouts": {
 		"enabled": true,
-		"requirePeers": 1,
+		"requirePeers": 2,
 		"interval": "2m",
 		"daemon": "http://127.0.0.1:8545",
 		"timeout": "10s",
 		"address": "0x0",
 		"gas": "21000",
-		"gasPrice": "100000000000",
+		"gasPrice": "10000000000",
 		"autoGas": true,
 		"threshold": 1000000000,
 		"bgsave": false
