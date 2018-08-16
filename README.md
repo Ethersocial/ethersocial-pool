@@ -49,7 +49,7 @@ If you are not familiar with vi, you can search for manuals on Google or use oth
 
     $ vi ~/.profile
 
-    export PATH=$PATH:/usr/local/go/bin
+    export PATH="$PATH:/usr/local/go/bin"
     export PATH="$HOME/.yarn/bin:$PATH"
 
 ### Install redis-server
