@@ -109,7 +109,7 @@ If it doesn’t work, run the command below first.
 If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
     $ screen -S esn1
-    $ gesn --cache=1024 --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    $ gesn --cache=1024 --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
 If you want to go back to the original terminal,
@@ -290,7 +290,7 @@ Set up based on commands below.
     // the address is for pool fee. Personal wallet is recommended to prevent from server hacking.
     "poolFeeAddress": "0x8b92c50e1c39466f900a578edb20a49356c4fe24",
     // Amount of donation to a pool maker. 5 percent of pool fee is donated to a pool maker now. If pool fee is 1 percent, 0.05 percent which is 5 percent of pool fee should be donated to a pool maker.
-    "donate": true,
+    "donate": false,
     // Unlock only if this number of blocks mined back
     "depth": 120,
     // Simply don't touch this option
@@ -300,7 +300,7 @@ Set up based on commands below.
     // Run unlocker in this interval
     "interval": "10m",
     // Gesn instance node rpc endpoint for unlocking blocks
-    "daemon": "http://127.0.0.1:8545",
+    "daemon": "http://127.0.0.1:9545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s"
   },
@@ -311,9 +311,9 @@ Set up based on commands below.
     // Require minimum number of peers on node
     "requirePeers": 5,
     // Run payouts in this interval
-    "interval": "12h",
+    "interval": "2m",
     // Gesn instance node rpc endpoint for payouts processing
-    "daemon": "http://127.0.0.1:8545",
+    "daemon": "http://127.0.0.1:9545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s",
     // Address with pool balance 풀 coinbase wallet address.
@@ -322,8 +322,8 @@ Set up based on commands below.
     "autoGas": true,
     // Gas amount and price for payout tx (advanced users only)
     "gas": "21000",
-    "gasPrice": "50000000000",
-    // The minimum distribution of mining reward. It is 100 ESN now.
+    "gasPrice": "10000000000",
+    // The minimum distribution of mining reward. It is 10 ESN now.
     "threshold": 10000000000,
     // Perform BGSAVE on Redis after successful payouts session
     "bgsave": false
