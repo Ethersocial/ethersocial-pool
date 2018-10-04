@@ -35,8 +35,8 @@ Dependencies:
 ### Install go lang
 
     $ sudo apt-get install -y build-essential
-    $ wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-amd64.tar.gz
-    $ tar zxvf go1.9.2.linux-amd64.tar.gz 
+    $ wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+    $ tar zxvf go1.11.linux-amd64.tar.gz
     $ sudo mv go /usr/local
 
 Type the command below.
@@ -108,24 +108,37 @@ If it doesn’t work, run the command below first.
 ### Run go-esn
 If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
-    $ screen -S esn1
-    $ gesn --cache=1024 --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    $ screen -S gesn1
+    $ gesn --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
-If you want to go back to the original terminal,
-
-    $ screen -r esn1
-
-Run go-esn again.
+Run go-esn again. (Connects to the gesn running in the console.)
 
     $ gesn attach
 
-Register pool account and open wallet for transaction. This process is always required, when the wallet is opened.
+Register pool account and open wallet for transaction.
 
-    > personal.unlockAccount("password")
-    > personal.unlockAccount(eth.accounts[0],"password",40000000)
+    > personal.newAccount()
+    Passphrase:
+    Repeat passphrase:
+    "0x0000000000000000000000000000000000000000"
 
+This process is always required, when the wallet is opened.
+ 
+    > personal.unlockAccount(eth.accounts[0],null,40000000)
+    Unlock account 0x0000000000000000000000000000000000000000
+    Passphrase: 
+    true
+    > exit
 
+If you want to go back to the original terminal,
+
+    $ screen -r gesn1
+
+To start a Gesn instance for mining, run it with all your usual flags, extended by:
+
+    $ gesn --cache=1024 --mine --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    Crtl + a, d
 
 ### Install Ethersocial pool
 
