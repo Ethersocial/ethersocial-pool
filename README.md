@@ -109,7 +109,7 @@ If it doesn’t work, run the command below first.
 If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
     $ screen -S gesn1
-    $ gesn --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    $ gesn --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
 Run go-esn again. (Connects to the gesn running in the console.)
@@ -137,7 +137,7 @@ If you want to go back to the original terminal,
 
 To start a Gesn instance for mining, run it with all your usual flags, extended by:
 
-    $ gesn --cache=1024 --mine --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi "eth,net,web3" console
+    $ gesn --cache=1024 --mine --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
 ### Install Ethersocial pool
