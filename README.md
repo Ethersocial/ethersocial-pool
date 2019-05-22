@@ -28,7 +28,7 @@ Dependencies:
   * redis-server >= 2.8.0
   * nodejs >= 4 LTS
   * nginx
-  * gesn
+  * go-ethersocial
 
 **I highly recommend to use Ubuntu 16.04 LTS.**
 
@@ -97,24 +97,24 @@ If it doesn’t work, run the command below first.
 
     $ sudo apt-get install -y build-essential
 
-### Install go-esn
+### Install go-ethersocial
     $ cd ~
-    $ git clone https://github.com/ethersocial/go-esn
-    $ cd go-esn
+    $ git clone https://github.com/Ethersocial/go-ethersocial
+    $ cd go-ethersocial
     $ chmod 755 build/*
-    $ make gesn
-    $ sudo cp ~/go-esn/build/bin/gesn /usr/local/bin/
+    $ make geth
+    $ sudo cp ~/go-ethersocial/build/bin/geth /usr/local/bin/
 
 ### Run go-esn
 If you use Ubuntu, it is easier to control terminal by screen command. You can get the manual by searching Ubuntu screen on Google.
 
-    $ screen -S gesn1
-    $ gesn --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
+    $ screen -S geth1
+    $ geth --cache=1024 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
-Run go-esn again. (Connects to the gesn running in the console.)
+Run go-esn again. (Connects to the geth running in the console.)
 
-    $ gesn attach
+    $ geth attach
 
 Register pool account and open wallet for transaction.
 
@@ -133,11 +133,11 @@ This process is always required, when the wallet is opened.
 
 If you want to go back to the original terminal,
 
-    $ screen -r gesn1
+    $ screen -r geth1
 
-To start a Gesn instance for mining, run it with all your usual flags, extended by:
+To start a geth instance for mining, run it with all your usual flags, extended by:
 
-    $ gesn --cache=1024 --mine --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
+    $ geth --cache=1024 --mine --txpool.pricelimit 1000000 --rpc --rpcaddr 127.0.0.1 --rpcport 9545 --rpcapi "eth,net,web3" console
     Crtl + a, d
 
 ### Install Ethersocial pool
@@ -312,7 +312,7 @@ Set up based on commands below.
     "keepTxFees": false,
     // Run unlocker in this interval
     "interval": "10m",
-    // Gesn instance node rpc endpoint for unlocking blocks
+    // Geth instance node rpc endpoint for unlocking blocks
     "daemon": "http://127.0.0.1:9545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s"
@@ -325,13 +325,13 @@ Set up based on commands below.
     "requirePeers": 5,
     // Run payouts in this interval
     "interval": "2m",
-    // Gesn instance node rpc endpoint for payouts processing
+    // Geth instance node rpc endpoint for payouts processing
     "daemon": "http://127.0.0.1:9545",
     // Rise error if can't reach geth in this amount of time
     "timeout": "10s",
     // Address with pool balance 풀 coinbase wallet address.
     "address": "0x0",
-    // Let gesn to determine gas and gasPrice
+    // Let Geth to determine gas and gasPrice
     "autoGas": true,
     // Gas amount and price for payout tx (advanced users only)
     "gas": "21000",
